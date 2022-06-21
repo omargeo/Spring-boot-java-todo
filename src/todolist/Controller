@@ -1,0 +1,44 @@
+package todolist;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class Controller {
+	
+	@Autowired
+	private TodoService todoService;
+	
+	@RequestMapping("/todos")
+	public List<Todo> getAllList() {
+		return todoService.getAllTodos();
+		
+	}
+	
+	@RequestMapping("/todos/{id}")
+	public Todo getTodo(@PathVariable int id) {
+		return todoService.getTodo(id);
+		
+	}
+	
+	@RequestMapping (method=RequestMethod.POST, value= "/todos")
+	public void createToDo(@RequestBody Todo todo) {
+		todoService.createToDo(todo);
+	}
+	
+	@RequestMapping (method=RequestMethod.PUT, value="/todos/{id}")
+	public void updateToDo (@PathVariable Integer id, @RequestBody Todo todo) {
+		todoService.updateToDo(id, todo);
+	}
+	
+	@RequestMapping (method=RequestMethod.DELETE, value="/todos/{id}")
+	public void deleteToDo (@PathVariable Integer id) {
+		todoService.deleteToDo(id);
+	}
+}
